@@ -20,16 +20,16 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-
+        // create user
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
+        // create token
         $token = $user->createToken('auth_token')->plainTextToken;
-
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+        // return token
+        return response()->json(['token' => $token, 'token_type' => 'Bearer']);
     }
 
     public function login(Request $request)
@@ -42,15 +42,23 @@ class AuthController extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
-
+        // check credentials
         $user = User::where('email', $request->email)->first();
-
+        // check password
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
-
+        // create token
         $token = $user->createToken('auth_token')->plainTextToken;
+        // return token
+        return response()->json(['token' => $token, 'token_type' => 'Bearer']);
+    }
 
-        return response()->json(['access_token' => $token, 'token_type' => 'Bearer']);
+    public function logout(Request $request)
+    {
+        // delete token
+        $request->user()->tokens()->delete();
+        // return response
+        return response()->noContent();
     }
 }

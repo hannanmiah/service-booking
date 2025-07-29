@@ -41,7 +41,7 @@ class ServiceTest extends TestCase
 
     public function test_a_user_cannot_create_a_service()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['is_admin' => false]);
         $this->actingAs($user);
 
         $serviceData = [

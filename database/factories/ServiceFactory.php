@@ -20,7 +20,8 @@ class ServiceFactory extends Factory
             'name' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
             'price' => $this->faker->randomFloat(2, 10, 500),
-            'status' => true,
+            'is_active' => $this->faker->randomElement([true, false]),
+            'is_featured' => $this->faker->randomElement([true, false]),
         ];
     }
 }

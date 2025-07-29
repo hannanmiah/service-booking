@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Service;
@@ -70,7 +69,7 @@ class BookingTest extends TestCase
 
     public function test_a_user_cannot_view_all_bookings()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['is_admin' => false]);
         $this->actingAs($user);
 
         $response = $this->get('/api/admin/bookings');

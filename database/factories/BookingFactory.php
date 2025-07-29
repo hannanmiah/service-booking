@@ -22,7 +22,7 @@ class BookingFactory extends Factory
             'user_id' => User::factory(),
             'service_id' => Service::factory(),
             'booking_date' => $this->faker->dateTimeBetween('+1 week', '+1 month'),
-            'status' => 'pending',
+            'status' => $this->faker->randomElement(['pending', 'confirmed', 'cancelled']),
         ];
     }
 }
